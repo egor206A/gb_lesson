@@ -21,3 +21,51 @@
 - **Fine-tuning**: Путем дообучения модели на новых данных можно значительно улучшить ее производительность.
 
 - **Regularization**: Применение методов регуляризации, таких как DropOut, может помочь уменьшить переобучение модели.
+  #сам код:
+  import torch
+import torch.nn as nn
+import torch.optim as optim
+from torch.utils.data import DataLoader
+from torchvision import transforms
+
+# Загрузка датасета и предобработка данных
+# Пример загрузки датасета и преобразования изображений
+# dataset = CustomDataset()
+# dataloader = DataLoader(dataset, batch_size=4, shuffle=True)
+
+# Определение архитектуры нейронной сети
+class SimpleSegmentationModel(nn.Module):
+    def __init__(self):
+        super(SimpleSegmentationModel, self).__init__()
+        self.conv1 = nn.Conv2d(3, 16, 3)
+        self.conv2 = nn.Conv2d(16, 32, 3)
+        self.conv3 = nn.Conv2d(32, 2, 3)
+
+    def forward(self, x):
+        x = self.conv1(x)
+        x = self.conv2(x)
+        x = self.conv3(x)
+        return x
+
+model = SimpleSegmentationModel()
+
+# Определение функции потерь и оптимизатора
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.SGD(model.parameters(), lr=0.001)
+
+# Обучение нейронной сети
+for epoch in range(num_epochs):
+    for i, data in enumerate(dataloader):
+        inputs, labels = data
+
+        optimizer.zero_grad()
+        outputs = model(inputs)
+        loss = criterion(outputs, labels)
+        loss.backward()
+        optimizer.step()
+
+# Анализ улучшения работы нейронной сети
+# Для оценки работы нейронной сети можно использовать метрики качества, такие как точность, полнота, F1-мера и другие.
+# Также можно провести анализ ошибок и исследовать влияние различных параметров модели на ее производительность.
+
+
